@@ -11,11 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.diavlo.bitacora.common.domain.entities.TimeCreateUpdate;
 import com.diavlo.bitacora.deparments.domain.entity.Department;
-import com.diavlo.bitacora.roles.domain.entity.Role;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,15 +46,15 @@ import lombok.Setter;
 public class User implements UserDetails {
 
     
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     @Column(nullable = false, length = 50)
     private String username;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
-    private String passwordHash;
+    @Column(name = "password", nullable = false, length = 255)
+    private String password;
 
     @Column(nullable = false, length = 100)
     private String email;
@@ -60,9 +62,6 @@ public class User implements UserDetails {
     @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false, foreignKey = @ForeignKey(name = "fk_user_role"))
-    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false, foreignKey = @ForeignKey(name = "fk_user_department"))
@@ -71,14 +70,17 @@ public class User implements UserDetails {
     @Embedded
     private TimeCreateUpdate timeCreateUpdate;
 
+    @Enumerated(EnumType.STRING) 
+    Role role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getRoleName()));
+      return List.of(new SimpleGrantedAuthority((role.name())));
     }
 
     @Override
     public String getPassword() {
-        return this.passwordHash;
+        return this.password;
     }
 
     @Override

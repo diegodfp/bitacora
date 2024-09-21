@@ -3,10 +3,14 @@ package com.diavlo.bitacora.projects.domain.entity;
 
 
 import java.sql.Date;
+import java.util.*;
+
 
 import com.diavlo.bitacora.common.domain.entities.TimeCreateUpdate;
 import com.diavlo.bitacora.deparments.domain.entity.Department;
+import com.diavlo.bitacora.projectusers.domain.entity.ProjectUser;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -15,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.ForeignKey;
@@ -53,6 +58,9 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false, foreignKey = @ForeignKey(name = "fk_project_department"))
     private Department department;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProjectUser> projectUsers = new ArrayList<>();
 
     @Embedded
     private TimeCreateUpdate timeCreateUpdate;
