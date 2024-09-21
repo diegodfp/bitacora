@@ -3,7 +3,7 @@ package com.diavlo.bitacora.projects.Infraestructure.Repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.jpa.boot.spi.ProviderChecker;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
