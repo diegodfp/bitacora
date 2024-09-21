@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import com.diavlo.bitacora.activities.domain.entity.Activity;
 import com.diavlo.bitacora.common.domain.entities.TimeCreateUpdate;
 import com.diavlo.bitacora.projects.domain.entity.Project;
-import com.diavlo.bitacora.users.application.entity.User;
+import com.diavlo.bitacora.users.domain.entity.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

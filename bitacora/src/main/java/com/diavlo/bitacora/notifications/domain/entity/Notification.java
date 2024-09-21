@@ -3,7 +3,7 @@ package com.diavlo.bitacora.notifications.domain.entity;
 
 import java.sql.Timestamp;
 
-import com.diavlo.bitacora.users.application.entity.User;
+import com.diavlo.bitacora.users.domain.entity.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
