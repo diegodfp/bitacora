@@ -19,10 +19,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    
+    /*  // --- COMENTADO PARA PROPOSITOS DE PRUEBA ---- ///
+    
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private final AuthenticationProvider authenticationProvider;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -39,5 +41,19 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
+    */
 
+    // JWT TOKEN DESACTIVADO Y TODAS LAS RUTAS PERMITIDAS
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(authRequest -> authRequest
+                .requestMatchers("/**").permitAll()  
+                .anyRequest().permitAll()
+            )
+            .sessionManagement(sessionManager -> sessionManager
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .build();
+    }
 }

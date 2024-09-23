@@ -1,7 +1,10 @@
 package com.diavlo.bitacora.activities.infrastructure.controller;
 
 import com.diavlo.bitacora.activities.application.dto.ActivityDTO;
+import com.diavlo.bitacora.activities.domain.entity.StartPauseRequest;
 import com.diavlo.bitacora.activities.domain.services.ActivityService;
+import com.diavlo.bitacora.timelogs.domain.service.TimelogService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +18,7 @@ import java.util.Optional;
 public class ActivityController {
 
     private final ActivityService activityService;
-
+    private final TimelogService timelogService;
     // Crear una actividad
     @PostMapping("/create")
     public ResponseEntity<ActivityDTO> createActivity(@RequestBody ActivityDTO activityDTO) {
@@ -51,6 +54,41 @@ public class ActivityController {
         List<ActivityDTO> activities = activityService.getAllActivities();
         return ResponseEntity.ok(activities);
     }
+    
+
+    @PostMapping("/{activityId}/start")
+public ResponseEntity<?> startActivity(@PathVariable Long activityId, 
+                                       @RequestBody StartPauseRequest request) {
+    timelogService.startActivity(activityId, request.getUserId(), request.getProjectId());
+    return ResponseEntity.ok("Actividad Iniciada");
+}
+
+/*  ENDPOINT INSOMNIA
+    http://localhost:8080/activities/1/start
+ {
+    "userId": 3,
+    "projectId": 1
+}
+ */
+
+@PostMapping("/{activityId}/pause")
+public ResponseEntity<?> pauseActivity(@PathVariable Long activityId, 
+                                       @RequestBody StartPauseRequest request) {
+    timelogService.pauseActivity(activityId, request.getUserId(), request.getProjectId());
+    return ResponseEntity.ok("Actividad Pausada");
+}
+/*
+ http://localhost:8080/activities/1/pause
+
+ {
+    "userId": 3,
+    "projectId": 1
+}
+
+ */
+
+
+    
 
      // JSON para Insomnia:
     /*

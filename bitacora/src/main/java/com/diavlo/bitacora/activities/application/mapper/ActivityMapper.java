@@ -10,29 +10,36 @@ import com.diavlo.bitacora.users.domain.entity.User;
 
 public class ActivityMapper {
 
-    public static Activity toEntity(ActivityDTO activityDTO, Project project, ActivityType activityType, 
-                                    ActivityStatus activityStatus, Priority priority, User createdByUser) {
-        return Activity.builder()
-            .activityName(activityDTO.getActivityName())
-            .description(activityDTO.getDescription())
-            .project(project)
-            .activityType(activityType)
-            .activityStatus(activityStatus)
-            .priority(priority)
-            .createdByUser(createdByUser)
-            .build();
-    }
-
     public static ActivityDTO toDTO(Activity activity) {
         return ActivityDTO.builder()
-            .activityId(activity.getActivityId())
-            .activityName(activity.getActivityName())
-            .description(activity.getDescription())
-            .projectId(activity.getProject().getProjectId())
-            .activityTypeId(activity.getActivityType().getActivityTypeId())
-            .activityStatusId(activity.getActivityStatus().getStatusId())
-            .priorityId(activity.getPriority().getPriorityId())
-            .createdByUserId(activity.getCreatedByUser().getUserId()) // Ajusta según tu entidad User
-            .build();
+                .activityId(activity.getActivityId())
+                .projectId(activity.getProject().getProjectId())
+                .projectName(activity.getProject().getProjectName()) 
+                .activityTypeId(activity.getActivityType().getActivityTypeId())
+                .activityTypeName(activity.getActivityType().getTypeName()) 
+                .activityStatusId(activity.getActivityStatus().getStatusId())
+                .activityStatusName(activity.getActivityStatus().getStatusName()) 
+                .priorityId(activity.getPriority().getPriorityId())
+                .priorityLevel(activity.getPriority().getPriorityLevel()) 
+                .createdByUserId(activity.getCreatedByUser().getUserId())
+                .createdByUserName(activity.getCreatedByUser().getFullName())
+                .activityName(activity.getActivityName())
+                .description(activity.getDescription())
+                .build();
+    }
+
+    public static Activity toEntity(ActivityDTO activityDTO, Project project, ActivityType activityType,
+                                    ActivityStatus activityStatus, Priority priority, User createdByUser) {
+        return Activity.builder()
+                .activityId(activityDTO.getActivityId())
+                .project(project)
+                .activityType(activityType)
+                .activityStatus(activityStatus)
+                .priority(priority)
+                .createdByUser(createdByUser)
+                .activityName(activityDTO.getActivityName())
+                .description(activityDTO.getDescription())
+                .build();
     }
 }
+
