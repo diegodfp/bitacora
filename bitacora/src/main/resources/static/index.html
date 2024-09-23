@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Actividades</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Gestión de Actividades</h1>
+  
+  <!-- Formulario para obtener actividades del usuario -->
+  <section>
+    <h2>Actividades Asignadas</h2>
+    <form id="getActivitiesForm">
+      <label for="userId">ID del Usuario:</label>
+      <input type="text" id="userId" placeholder="Ingresa tu ID de usuario" required>
+      <button type="submit">Ver Actividades</button>
+    </form>
+    <div id="activitiesList"></div>
+  </section>
+
+  <!-- Sección de control de actividad -->
+  <section>
+    <h2>Control de Actividad</h2>
+    <form id="activityControlForm">
+      <label for="activityId">ID de la Actividad:</label>
+      <input type="text" id="activityId" placeholder="Ingresa ID de la actividad" required>
+      <button type="button" onclick="startActivity()">Iniciar Actividad</button>
+      <button type="button" onclick="pauseActivity()">Pausar Actividad</button>
+      <button type="button" onclick="completeActivity()">Finalizar Actividad</button>
+    </form>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

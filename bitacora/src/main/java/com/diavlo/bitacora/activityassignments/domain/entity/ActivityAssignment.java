@@ -28,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AcitvityAssignment {
+public class ActivityAssignment {
 
     
     @Id
