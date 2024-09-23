@@ -4,11 +4,10 @@ package com.diavlo.bitacora.users.domain.services;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.diavlo.bitacora.deparments.domain.entity.Department;
+import com.diavlo.bitacora.departments.domain.entity.Department;
 import com.diavlo.bitacora.jwt.JwtService;
 import com.diavlo.bitacora.users.domain.entity.AuthResponse;
 import com.diavlo.bitacora.users.domain.entity.LoginRequest;

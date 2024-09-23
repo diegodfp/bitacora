@@ -2,12 +2,11 @@ package com.diavlo.bitacora.projects.domain.entity;
 
 
 
-import java.sql.Date;
 import java.util.*;
 
 
 import com.diavlo.bitacora.common.domain.entities.TimeCreateUpdate;
-import com.diavlo.bitacora.deparments.domain.entity.Department;
+import com.diavlo.bitacora.departments.domain.entity.Department;
 import com.diavlo.bitacora.projectusers.domain.entity.ProjectUser;
 
 import jakarta.persistence.CascadeType;
