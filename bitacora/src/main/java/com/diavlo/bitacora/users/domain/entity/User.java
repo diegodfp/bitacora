@@ -10,8 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.diavlo.bitacora.common.domain.entities.TimeCreateUpdate;
-import com.diavlo.bitacora.deparments.domain.entity.Department;
-
+import com.diavlo.bitacora.departments.domain.entity.Department;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
