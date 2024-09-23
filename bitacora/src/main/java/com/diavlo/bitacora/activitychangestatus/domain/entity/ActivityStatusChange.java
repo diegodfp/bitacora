@@ -2,8 +2,10 @@ package com.diavlo.bitacora.activitychangestatus.domain.entity;
 
 import com.diavlo.bitacora.activities.domain.entity.Activity;
 import com.diavlo.bitacora.activitystatuses.domain.entity.ActivityStatus;
+import com.diavlo.bitacora.common.domain.entities.TimeCreateUpdate;
 import com.diavlo.bitacora.users.domain.entity.User;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "activity_status_changes")
@@ -49,7 +51,7 @@ public class ActivityStatusChange {
     @Column(name = "change_comment", nullable = false, columnDefinition = "text")
     private String changeComment;
 
-    @Column(name = "changed_at", nullable = false)
-    private LocalDateTime changedAt; 
+    @Embedded
+    private TimeCreateUpdate timeCreateUpdate;
 
 }
