@@ -1,6 +1,8 @@
 package com.diavlo.bitacora.activities.infrastructure.controller;
 
+import com.diavlo.bitacora.activities.application.dto.ActivityChangeStatusDTO;
 import com.diavlo.bitacora.activities.application.dto.ActivityDTO;
+import com.diavlo.bitacora.activities.application.dto.contenedorDTO;
 import com.diavlo.bitacora.activities.domain.entity.StartPauseRequest;
 import com.diavlo.bitacora.activities.domain.services.ActivityService;
 import com.diavlo.bitacora.timelogs.domain.service.TimelogService;
@@ -27,8 +29,8 @@ public class ActivityController {
 
     // Actualizar una actividad
     @PutMapping("/update/{id}")
-    public ResponseEntity<ActivityDTO> updateActivity(@PathVariable Long id, @RequestBody ActivityDTO activityDTO) {
-        Optional<ActivityDTO> updatedActivity = activityService.updateActivity(id, activityDTO);
+    public ResponseEntity<ActivityDTO> updateActivity(@PathVariable Long id, @RequestBody contenedorDTO request) {
+        Optional<ActivityDTO> updatedActivity = activityService.updateActivity(id, request.getActivityDTO(), request.getActivityChangeStatusDTO());
         return updatedActivity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -106,3 +108,26 @@ public ResponseEntity<?> pauseActivity(@PathVariable Long activityId,
         }
     */
 }
+
+
+// {
+//     "activityDTO": {
+//         "activityId": 1,
+//         "projectId": 1,
+//         "activityTypeId": 1,
+//         "activityStatusId": 2,
+//         "priorityId": 1,
+//         "createdByUserId":1,
+//         "activityName": "Actividad de Ejemplo",
+//         "description": "Descripción de la actividad",
+//         "startDate": "2024-09-22T10:00:00",
+//         "updatedDate": "2024-09-22T12:00:00"
+//     },
+//     "activityChangeStatusDTO": {
+//         "activity_id": 1,
+//         "changed_by_user_id": 2,
+//         "status_id": 2,
+//         "change_comment": "Cambio de estado"
+//     }
+// }
+

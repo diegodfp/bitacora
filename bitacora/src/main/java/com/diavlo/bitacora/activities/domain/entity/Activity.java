@@ -6,6 +6,7 @@ import com.diavlo.bitacora.common.domain.entities.TimeCreateUpdate;
 import com.diavlo.bitacora.priorities.domain.entity.Priority;
 import com.diavlo.bitacora.projects.domain.entity.Project;
 import com.diavlo.bitacora.users.domain.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -37,22 +38,27 @@ public class Activity {
     private Long activityId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_project"))
     private Project project;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "activity_type_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_type"))
     private ActivityType activityType;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "activity_status_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_status"))
     private ActivityStatus activityStatus;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "priority_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_priority"))
     private Priority priority;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "created_by_user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_user"))
     private User createdByUser;
 

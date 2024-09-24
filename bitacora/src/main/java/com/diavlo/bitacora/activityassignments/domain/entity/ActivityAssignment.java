@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import com.diavlo.bitacora.activities.domain.entity.Activity;
 import com.diavlo.bitacora.users.domain.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,10 +37,12 @@ public class ActivityAssignment {
     private Long assignmentId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_assignment_user"))
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "activity_id", nullable = false, foreignKey = @ForeignKey(name = "fk_assignment_activity"))
     private Activity activity;
 

@@ -8,6 +8,7 @@ import java.util.*;
 import com.diavlo.bitacora.common.domain.entities.TimeCreateUpdate;
 import com.diavlo.bitacora.departments.domain.entity.Department;
 import com.diavlo.bitacora.projectusers.domain.entity.ProjectUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -55,6 +56,7 @@ public class Project {
     private Date endDate;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "department_id", nullable = false, foreignKey = @ForeignKey(name = "fk_project_department"))
     private Department department;
 
