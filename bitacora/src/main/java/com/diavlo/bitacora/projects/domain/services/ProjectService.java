@@ -9,10 +9,13 @@ import com.diavlo.bitacora.projects.infrastructure.repository.ProjectRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -66,5 +69,12 @@ public class ProjectService {
             projectRepository.delete(project);
             return ProjectMapper.toDto(project);
         });
+    }
+
+     // método para obtener proyectos por ID de departamento
+    @Transactional
+    public List<ProjectDTO> findProjectsByDepartmentId(Long departmentId) {
+        List<Project> projects = projectRepository.findByDepartmentId(departmentId);
+        return projects.stream().map(ProjectMapper::toDto).toList();
     }
 }

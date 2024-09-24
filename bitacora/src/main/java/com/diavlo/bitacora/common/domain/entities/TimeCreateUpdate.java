@@ -18,10 +18,10 @@ import lombok.Setter;
 @Embeddable
 public class TimeCreateUpdate {
 
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;
 
     @PrePersist

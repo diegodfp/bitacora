@@ -3,12 +3,16 @@ package com.diavlo.bitacora.projects.infrastructure.controller;
 import com.diavlo.bitacora.projects.application.dto.ProjectDTO;
 import com.diavlo.bitacora.projects.domain.services.ProjectService;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/projects")
@@ -52,7 +56,14 @@ public class ProjectController {
         return ResponseEntity.ok(projects);
     }
 
-    // JSON de ejemplo para Insomnia:
+    // Listar proyectos por departamento
+    @GetMapping("/department/{departmentId}")
+    public ResponseEntity<List<ProjectDTO>> findProjectsByDepartmentId(@PathVariable Long departmentId) {
+        List<ProjectDTO> projects = projectService.findProjectsByDepartmentId(departmentId);
+        return ResponseEntity.ok(projects);
+    }
+
+    // JSON de ejemplo de creacion para Insomnia:
     /*
     {
       "projectName": "Proyecto Creado from endpoint",
