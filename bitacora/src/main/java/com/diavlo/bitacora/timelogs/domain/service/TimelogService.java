@@ -5,6 +5,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,5 +76,21 @@ public class TimelogService {
         } else {
             throw new IllegalArgumentException("No hay actividad en curso para pausar.");
         }
+    }
+
+    // Lógica para obtener el tiempo total por usuario y fecha
+    public int getTotalTimeByUserAndDate(Long userId, LocalDate date) {
+        List<Timelog> timelogs = timelogRepository.findByUserAndDate(userId, date);
+        return timelogs.stream()
+                       .mapToInt(Timelog::getDuration)
+                       .sum();
+    }
+
+    // Obtener el tiempo total por actividad
+    public int getTotalTimeByActivity(Long activityId) {
+        List<Timelog> timelogs = timelogRepository.findByActivity(activityId);
+        return timelogs.stream()
+                       .mapToInt(Timelog::getDuration)
+                       .sum();
     }
 }

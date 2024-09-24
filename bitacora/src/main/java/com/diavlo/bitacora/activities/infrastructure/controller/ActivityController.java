@@ -8,6 +8,8 @@ import com.diavlo.bitacora.activities.domain.services.ActivityService;
 import com.diavlo.bitacora.timelogs.domain.service.TimelogService;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -107,6 +109,16 @@ public ResponseEntity<?> pauseActivity(@PathVariable Long activityId,
             "updatedDate": "2024-09-22T12:00:00"
         }
     */
+
+
+    // Ver Tiempo Total Invertido en una Actividad
+    @GetMapping("/{activityId}/timelog")
+    public ResponseEntity<?> getTotalTimeForActivity(@PathVariable Long activityId) {
+        int totalTime = timelogService.getTotalTimeByActivity(activityId);
+        return ResponseEntity.ok("Total time for activity: " + totalTime + " minutes");
+    }
+
+
 }
 
 
