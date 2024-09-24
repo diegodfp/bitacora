@@ -33,8 +33,8 @@ public class DepartmentController {
     // Crear un nuevo departamento
     @PostMapping
     public ResponseEntity<DepartmentDTO> create(@RequestBody DepartmentDTO departmentDTO) {
-        DepartmentDTO createdDepartment = departmentService.create(departmentDTO);
-        return ResponseEntity.ok(createdDepartment);
+        DepartmentDTO createdDepatment = departmentService.create(departmentDTO);
+        return ResponseEntity.ok(createdDepatment);
     }
 
     // Actualizar un departamento existente

@@ -4,6 +4,8 @@ import com.diavlo.bitacora.activities.domain.entity.Activity;
 import com.diavlo.bitacora.activitystatuses.domain.entity.ActivityStatus;
 import com.diavlo.bitacora.common.domain.entities.TimeCreateUpdate;
 import com.diavlo.bitacora.users.domain.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -37,14 +39,17 @@ public class ActivityStatusChange {
     private Long activityStatusChangeId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "activity_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_status_change_activity"))
     private Activity activity;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "status_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_status_change_status"))
     private ActivityStatus activityStatus;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "changed_by_user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_status_change_user"))
     private User changedByUser;
 
