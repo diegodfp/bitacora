@@ -167,5 +167,17 @@ public class ActivityService {
                                 .map(activityAssignment -> ActivityMapper.toDTO(activityAssignment.getActivity()))
                                 .collect(Collectors.toList());
         }
+        public List<ActivityDTO> getActivitiesByPriority(Long priorityId) {
+                // Llamar al repositorio para obtener actividades filtradas por priorityId
+                List<Activity> activities = activityRepository.findAllByPriorityId(priorityId);
+        
+                // Mapear las actividades a DTOs
+                return activities.stream()
+                                 .map(ActivityMapper::toDTO)
+                                 .collect(Collectors.toList());
+            }
+
+       
+            
 
 }

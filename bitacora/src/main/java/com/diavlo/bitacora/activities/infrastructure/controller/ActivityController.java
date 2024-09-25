@@ -118,6 +118,18 @@ public ResponseEntity<?> pauseActivity(@PathVariable Long activityId,
         return ResponseEntity.ok("Total time for activity: " + totalTime + " minutes");
     }
 
+     // Listar actividades por el ID de la prioridad
+     @GetMapping("/priority/{priorityId}")
+     public ResponseEntity<List<ActivityDTO>> getActivitiesByPriority(@PathVariable Long priorityId) {
+         List<ActivityDTO> activities = activityService.getActivitiesByPriority(priorityId);
+         
+         if (activities.isEmpty()) {
+             return ResponseEntity.noContent().build();
+         }
+         
+         return ResponseEntity.ok(activities);
+     }
+
 
 }
 
@@ -143,3 +155,5 @@ public ResponseEntity<?> pauseActivity(@PathVariable Long activityId,
 //     }
 // }
 
+    // Listar actividades por el ID de la prioridad
+    
