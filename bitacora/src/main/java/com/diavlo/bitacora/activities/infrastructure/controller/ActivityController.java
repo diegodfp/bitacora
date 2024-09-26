@@ -10,6 +10,7 @@ import com.diavlo.bitacora.timelogs.domain.service.TimelogService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -123,6 +124,21 @@ public ResponseEntity<?> pauseActivity(@PathVariable Long activityId,
     public ResponseEntity<?> getTotalTimeForActivity(@PathVariable Long activityId) {
         int totalTime = timelogService.getTotalTimeByActivity(activityId);
         return ResponseEntity.ok("Total time for activity: " + totalTime + " minutes");
+    }
+
+    // endpoint que devuelve las actividades que no tiene asignadas un usuario
+    @GetMapping("/available/{userId}")
+    public ResponseEntity<List<ActivityDTO>> getAvailableActivities(@PathVariable Long userId) {
+        try {
+            List<ActivityDTO> availableActivities = activityService.getAvailableActivitiesForUser(userId);
+            return ResponseEntity.ok(availableActivities);
+        } catch (IllegalArgumentException e) {
+            // Manejo de error cuando el usuario no se encuentra
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            // Manejo de otros errores generales
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 
