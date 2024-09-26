@@ -183,4 +183,12 @@ public class ActivityService {
                                 .collect(Collectors.toList());
         }
 
+        public List<ActivityDTO> getAvailableActivitiesForUser(Long userId) {
+                List<Activity> availableActivities = activityRepository.findAvailableActivitiesForUser(userId);
+                // Mapear de entidad a DTO
+                return availableActivities.stream()
+                          .map(ActivityMapper::toDTO)  // Cambia "mapToDto" a "toDTO"
+                          .collect(Collectors.toList());
+            }
+
 }
