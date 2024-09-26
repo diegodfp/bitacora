@@ -1,5 +1,7 @@
 package com.diavlo.bitacora.activities.application.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +27,7 @@ public class ActivityDTO {
     private String createdByUserName; // Aquí guardamos el nombre del usuario creador
     private String activityName;
     private String description;
+    private LocalDateTime createdAt;
 }
 
 

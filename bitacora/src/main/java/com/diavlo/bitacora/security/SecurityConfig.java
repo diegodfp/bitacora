@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
     
-    /*  // --- COMENTADO PARA PROPOSITOS DE PRUEBA ---- ///
+    
     
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -41,8 +41,8 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
-    */
-
+    
+    /*  COMENTADO PORQUE TERMINARON LAS PRUEBAS // 
     // JWT TOKEN DESACTIVADO Y TODAS LAS RUTAS PERMITIDAS
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -56,4 +56,5 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .build();
     }
+            */
 }

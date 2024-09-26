@@ -67,12 +67,15 @@ public class ActivityService {
                                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
                 Activity activity = ActivityMapper.toEntity(activityDTO, project, activityType, activityStatus,
-                                priority,
-                                createdByUser);
+                                priority, createdByUser);
+
+                // Aseguramos que la instancia de TimeCreateUpdate no sea nula
+                if (activity.getTimeCreateUpdate() == null) {
+                        activity.setTimeCreateUpdate(new TimeCreateUpdate());
+                }
 
                 Activity savedActivity = activityRepository.save(activity);
 
-                // Asignamos los nombres al DTO
                 ActivityDTO responseDTO = ActivityMapper.toDTO(savedActivity);
                 responseDTO.setActivityTypeName(activityType.getTypeName());
                 responseDTO.setActivityStatusName(activityStatus.getStatusName());
@@ -82,64 +85,76 @@ public class ActivityService {
                 return responseDTO;
         }
 
+        // Método para actualizar el estado de una actividad
         @Transactional
-        public Optional<ActivityDTO> updateActivity(Long id, ActivityDTO activityDTO,
-                        ActivityChangeStatusDTO activityChangeStatusDTO) {
+        public Optional<ActivityDTO> updateActivityStatus(Long id, ActivityChangeStatusDTO activityChangeStatusDTO) {
                 Optional<Activity> optionalActivity = activityRepository.findById(id);
                 if (optionalActivity.isPresent()) {
+                        Activity activity = optionalActivity.get();
 
-                        Project project = projectRepository.findById(activityDTO.getProjectId())
-                                        .orElseThrow(() -> new IllegalArgumentException("Project not found"));
-                        ActivityType activityType = activityTypeRepository.findById(activityDTO.getActivityTypeId())
-                                        .orElseThrow(() -> new IllegalArgumentException("Activity Type not found"));
                         ActivityStatus activityStatus = activityStatusRepository
-                                        .findById(activityDTO.getActivityStatusId())
+                                        .findById(activityChangeStatusDTO.getStatus_id())
                                         .orElseThrow(() -> new IllegalArgumentException("Activity Status not found"));
-                        Priority priority = priorityRepository.findById(activityDTO.getPriorityId())
-                                        .orElseThrow(() -> new IllegalArgumentException("Priority not found"));
-                        User createdByUser = userRepository.findById(activityDTO.getCreatedByUserId())
+                        User changedByUser = userRepository.findById(activityChangeStatusDTO.getChanged_by_user_id())
                                         .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-                        Activity updatedActivity = ActivityMapper.toEntity(activityDTO, project, activityType,
-                                        activityStatus,
-                                        priority, createdByUser);
-                        updatedActivity.setActivityId(id); // Forzamos la actualización con el ID existente
-                        activityRepository.save(updatedActivity);
-
-                        // Activity activity =
-                        // activityRepository.findById(activityChangeStatusDTO.getActivity_id())
-                        // .orElseThrow(() -> new IllegalArgumentException("Activity not found"));
-
-                        // Optional<ActivityStatusChange> id_Exist_Change =
-                        // activityChangeStatusRepository.findById(id);
-                        // ActivityStatusChange changeStatus;
-                        // if (id_Exist_Change.isPresent()) {
-                        // changeStatus = id_Exist_Change.get();
-                        // } else {
-                        // changeStatus = new ActivityStatusChange();
-                        // }
-                        // changeStatus.setActivity(activity);
-                        // changeStatus.setChangedByUser(createdByUser);
-                        // changeStatus.setActivityStatus(activityStatus);
-                        // changeStatus.setChangeComment(activityChangeStatusDTO.getChange_comment());
-                        // activityChangeStatusRepository.save(changeStatus);
-
+                        // Crear el cambio de estado
                         ActivityStatusChange changeStatus = new ActivityStatusChange();
-                        changeStatus.setActivity(updatedActivity);
-                        changeStatus.setChangedByUser(createdByUser);
+                        changeStatus.setActivity(activity);
+                        changeStatus.setChangedByUser(changedByUser);
                         changeStatus.setActivityStatus(activityStatus);
                         changeStatus.setChangeComment(activityChangeStatusDTO.getChange_comment());
-                        // Inicializar el objeto TimeCreateUpdate
+
+                        // Asignar la fecha de creación
                         TimeCreateUpdate timeCreateUpdate = new TimeCreateUpdate();
-                        timeCreateUpdate.setCreatedAt(LocalDateTime.now()); // Establecer la fecha de creación
+                        timeCreateUpdate.setCreatedAt(LocalDateTime.now());
                         changeStatus.setTimeCreateUpdate(timeCreateUpdate);
+
                         // Guardar el cambio de estado
                         activityChangeStatusRepository.save(changeStatus);
 
-                        return Optional.of(ActivityMapper.toDTO(updatedActivity));
+                        // Actualizar el estado actual de la actividad
+                        activity.setActivityStatus(activityStatus);
+                        activityRepository.save(activity);
+
+                        return Optional.of(ActivityMapper.toDTO(activity));
                 }
                 return Optional.empty();
         }
+
+        // Método para actualizar los demás campos de una actividad
+    @Transactional
+    public Optional<ActivityDTO> updateActivityDetails(Long id, ActivityDTO activityDTO) {
+        Optional<Activity> optionalActivity = activityRepository.findById(id);
+        if (optionalActivity.isPresent()) {
+            Activity activity = optionalActivity.get();
+
+            Project project = projectRepository.findById(activityDTO.getProjectId())
+                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+            ActivityType activityType = activityTypeRepository.findById(activityDTO.getActivityTypeId())
+                .orElseThrow(() -> new IllegalArgumentException("Activity Type not found"));
+            Priority priority = priorityRepository.findById(activityDTO.getPriorityId())
+                .orElseThrow(() -> new IllegalArgumentException("Priority not found"));
+
+            // Actualizar solo los campos relevantes (nombre, descripción, prioridad, etc.)
+            activity.setProject(project);
+            activity.setActivityType(activityType);
+            activity.setPriority(priority);
+            activity.setActivityName(activityDTO.getActivityName());
+            activity.setDescription(activityDTO.getDescription());
+             // Aseguramos que la instancia de TimeCreateUpdate no sea nula
+        if (activity.getTimeCreateUpdate() == null) {
+                activity.setTimeCreateUpdate(new TimeCreateUpdate());
+            }
+    
+            // No cambiar createdAt, solo actualizar updatedAt
+            activity.getTimeCreateUpdate().setUpdatedAt(LocalDateTime.now());
+
+            activityRepository.save(activity);
+            return Optional.of(ActivityMapper.toDTO(activity));
+        }
+        return Optional.empty();
+    }
 
         public Optional<ActivityDTO> getActivityById(Long id) {
                 return activityRepository.findById(id).map(ActivityMapper::toDTO);

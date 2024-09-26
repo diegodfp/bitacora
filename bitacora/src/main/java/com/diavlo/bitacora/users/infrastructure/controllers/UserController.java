@@ -16,17 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diavlo.bitacora.activities.application.dto.ActivityDTO;
 import com.diavlo.bitacora.activities.domain.services.ActivityService;
 import com.diavlo.bitacora.timelogs.domain.service.TimelogService;
+import com.diavlo.bitacora.users.domain.entity.User;
+import com.diavlo.bitacora.users.domain.services.UserService;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+  
+    private final UserService userService;
 
     private final ActivityService activityService;
 
     @Autowired
     private  TimelogService timelogService;
 
-    public UserController(ActivityService activityService) {
+    public UserController(UserService userService, ActivityService activityService) {
+        this.userService = userService;
         this.activityService = activityService;
     }
 
@@ -53,6 +59,13 @@ public class UserController {
 
         int totalTime = timelogService.getTotalTimeByUserAndDate(userId, date);
         return ResponseEntity.ok("Total time for " + date + ": " + totalTime + " minutes");
+    }
+    
+    // Endpoint para listar usuarios por departamento
+    @GetMapping("/department/{departmentId}")
+    public ResponseEntity<List<User>> getUsersByDepartment(@PathVariable Long departmentId) {
+        List<User> users = userService.findUsersByDepartmentId(departmentId);
+        return ResponseEntity.ok(users);
     }
 
 }
