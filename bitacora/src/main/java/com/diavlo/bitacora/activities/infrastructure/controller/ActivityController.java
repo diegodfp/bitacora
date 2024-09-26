@@ -29,10 +29,17 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.createActivity(activityDTO));
     }
 
-    // Actualizar una actividad
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ActivityDTO> updateActivity(@PathVariable Long id, @RequestBody contenedorDTO request) {
-        Optional<ActivityDTO> updatedActivity = activityService.updateActivity(id, request.getActivityDTO(), request.getActivityChangeStatusDTO());
+    // Endpoint para actualizar el estado de una actividad
+    @PutMapping("/update-status/{id}")
+    public ResponseEntity<ActivityDTO> updateActivityStatus(@PathVariable Long id, @RequestBody ActivityChangeStatusDTO request) {
+        Optional<ActivityDTO> updatedActivity = activityService.updateActivityStatus(id, request);
+        return updatedActivity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
+    // Endpoint para actualizar los otros campos de la actividad
+    @PutMapping("/update-details/{id}")
+    public ResponseEntity<ActivityDTO> updateActivityDetails(@PathVariable Long id, @RequestBody ActivityDTO request) {
+        Optional<ActivityDTO> updatedActivity = activityService.updateActivityDetails(id, request);
         return updatedActivity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

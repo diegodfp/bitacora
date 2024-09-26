@@ -14,22 +14,26 @@ public class ActivityMapper {
         return ActivityDTO.builder()
                 .activityId(activity.getActivityId())
                 .projectId(activity.getProject().getProjectId())
-                .projectName(activity.getProject().getProjectName()) 
+                .projectName(activity.getProject().getProjectName())
                 .activityTypeId(activity.getActivityType().getActivityTypeId())
-                .activityTypeName(activity.getActivityType().getTypeName()) 
+                .activityTypeName(activity.getActivityType().getTypeName())
                 .activityStatusId(activity.getActivityStatus().getStatusId())
-                .activityStatusName(activity.getActivityStatus().getStatusName()) 
+                .activityStatusName(activity.getActivityStatus().getStatusName())
                 .priorityId(activity.getPriority().getPriorityId())
-                .priorityLevel(activity.getPriority().getPriorityLevel()) 
+                .priorityLevel(activity.getPriority().getPriorityLevel())
                 .createdByUserId(activity.getCreatedByUser().getUserId())
                 .createdByUserName(activity.getCreatedByUser().getFullName())
                 .activityName(activity.getActivityName())
                 .description(activity.getDescription())
+                // Añadimos el campo de fecha de creación desde el embebido
+                // Maneja el campo TimeCreateUpdate nulo
+                .createdAt(
+                        activity.getTimeCreateUpdate() != null ? activity.getTimeCreateUpdate().getCreatedAt() : null)
                 .build();
     }
 
     public static Activity toEntity(ActivityDTO activityDTO, Project project, ActivityType activityType,
-                                    ActivityStatus activityStatus, Priority priority, User createdByUser) {
+            ActivityStatus activityStatus, Priority priority, User createdByUser) {
         return Activity.builder()
                 .activityId(activityDTO.getActivityId())
                 .project(project)
@@ -42,4 +46,3 @@ public class ActivityMapper {
                 .build();
     }
 }
-
